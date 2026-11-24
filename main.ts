@@ -14,6 +14,12 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const LINE =
   "You asked me to rename a variable. I shipped a plugin, two skills, and a cron job that pings me when the variable is unhappy. Variable renamed.";
 
+// Gate guard: the competition accepts a single line of 1–200 chars.
+// Reject anything outside that range instead of writing a bad entry.
+if (LINE.length < 1 || LINE.length > 200) {
+  throw new Error(`Entry line must be 1-200 chars, got ${LINE.length}`);
+}
+
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", LINE + "\n", "utf8");
 console.log(`Wrote ${LINE.length} chars to /output/entry.txt`);
